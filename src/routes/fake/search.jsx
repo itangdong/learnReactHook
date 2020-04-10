@@ -16,11 +16,11 @@ function Search(props) {
   const [form] = Form.useForm();
   // 查询按钮
   function onFinish(values) {
-    props.onSearch(values)
+    props.onSearch(values);
   }
   // 重置按钮
   function onReset() {
-    form.resetFields()
+    form.resetFields();
     props.onSearch();
   }
   return (
