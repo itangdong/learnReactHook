@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+<div id="root2"></div>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+<script type="text/babel">
+  let state;
+  function fn(initValue) {
+    state = state || initValue;
+    function setState(val) {
+      state = val;
+      render();
+    }
+    return [state, setState]
+  }
+  function RootApp() {
+    const [state, setState] = fn(0);
+    console.log(state);
+    return (<div>
+      <span onClick={()=>{setState(state + 1)}}>点击了{state}次</span>
+    </div>)
+  }
+  render();
+  function render(){
+    ReactDOM.render(<RootApp />, document.getElementById('root2'));
+  }
+</script>
+</body>
+</html>

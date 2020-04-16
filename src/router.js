@@ -10,19 +10,16 @@ const Page3 = () => import('./routes/page3/page3');
 function RouterConfig({ history, app }) {
   const promiseDynamic = dynamic(
     {
-      // app,
       component:IndexPage,
     }
   )
   const promiseDynamic2 = dynamic(
     {
-      // app,
       component:Page2,
     }
   )
   const promiseDynamic3 = dynamic(
     {
-      // app,
       component:Page3,
     }
   )
