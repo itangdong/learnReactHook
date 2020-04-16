@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>useState&&useEffect</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+<div id="root3"></div>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+<script type="text/babel">
+  let watchArr;
+  function useEffect(fn, arr){
+    let flag;
+    flag = watchArr ? !arr.every((item,index) => item === watchArr[index]) : true;
+    if(flag){
+      watchArr = arr;
+      fn()
+    }
+  }
+  let state;
+  function useState(initValue) {
+    state = state || initValue;
+    function setState(val) {
+      state = val;
+      render();
+    }
+    return [state, setState];
+  }
+  function RootApp() {
+    let [state, setState] = useState(1);
+    useEffect(()=>{
+      console.log('state改变了:'+ state);}
+    , [state]);
+    return (<div>
+      <span onClick={()=>{setState(state + 1)}}>点击了{state}次</span>
+    </div>)
+  }
+  render();
+  function render(){
+    ReactDOM.render(<RootApp />, document.getElementById('root3'));
+  }
+</script>
+</body>
+</html>
