@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>useState</title>
+  <title>useEffect</title>
   <style>
     * {
       margin: 0;
@@ -12,31 +12,33 @@
   </style>
 </head>
 <body>
-<div id="root2"></div>
+<div id="root3"></div>
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 
 <script type="text/babel">
-  let state;
-  function fn(initValue) {
-    state = state || initValue;
-    function setState(val) {
-      state = val;
-      render();
+  let watchArr;
+  function useEffect(fn, arr){
+    let flag;
+    flag = watchArr ? !arr.every((item,index) => item === watchArr[index]) : true;
+    if(flag){
+      watchArr = arr;
+      fn()
     }
-    return [state, setState]
   }
+  let state = 0;
   function RootApp() {
-    const [state, setState] = fn(0);
-    console.log(state);
+    useEffect(()=>{
+      console.log('state改变了');}
+    , [state]);
     return (<div>
-      <span onClick={()=>{setState(state + 1)}}>点击了{state}次</span>
+      <span onClick={()=>{state += 1; render()}}>点击了{state}次</span>
     </div>)
   }
   render();
   function render(){
-    ReactDOM.render(<RootApp />, document.getElementById('root2'));
+    ReactDOM.render(<RootApp />, document.getElementById('root3'));
   }
 </script>
 </body>
