@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+<div id="root4"></div>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script type="text/babel">
+  let memoizedState  = [];
+  let currentCursor = 0;
+
+  function useState(initVal) {
+    memoizedState[currentCursor] = memoizedState[currentCursor] || initVal;
+    const cursor = currentCursor;
+    function setVal(newVal) {
+      memoizedState[cursor] = newVal;
+      render();
+    }
+    // 返回state 然后 currentCursor+1
+    return [memoizedState[currentCursor++], setVal];
+  }
+  function RootApp() {
+    const [state, setState] = useState(10);
+    const [state2, setState2] = useState(100);
+    console.log(memoizedState,currentCursor);
+    return (<div>
+      <span onClick={()=>{setState(state + 1)}}>state点击了{state}次</span>
+      <br/>
+      <span onClick={()=>{setState2(state2 + 1)}}>state2点击了{state2}次</span>
+    </div>)
+  }
+  render();
+  function render(){
+    currentCursor = 0;
+    ReactDOM.render(<RootApp />, document.getElementById('root4'));
+  }
+</script>
+</body>
+</html>
