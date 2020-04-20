@@ -30,10 +30,27 @@
     // 返回state 然后 currentCursor+1
     return [memoizedState[currentCursor++], setVal];
   }
+
+  function useEffect(fn, array) {
+    const flag = memoizedState[currentCursor] ? !memoizedState[currentCursor].every((item, index) => item === array[index]) : true;
+    if(flag){
+      memoizedState[currentCursor] = array;
+      fn();
+    }
+    currentCursor++;
+  }
+
+
   function RootApp() {
     const [state, setState] = useState(10);
     const [state2, setState2] = useState(100);
-    console.log(memoizedState,currentCursor);
+    useEffect(()=>{
+      console.log('useEffect执行了');
+    },[state]);
+
+    useEffect(()=>{
+      console.log('useEffect执行了,state2');
+    },[state2]);
     return (<div>
       <span onClick={()=>{setState(state + 1)}}>state点击了{state}次</span>
       <br/>
