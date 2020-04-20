@@ -32,10 +32,12 @@
   }
 
   function useEffect(fn, array) {
-    const flag = memoizedState[currentCursor] ? !memoizedState[currentCursor].every((item, index) => item === array[index]) : true;
+    const flag = memoizedState[currentCursor]
+      ? !memoizedState[currentCursor].every((item, index) => item === array[index])
+      : true;
     if(flag){
-      memoizedState[currentCursor] = array;
       fn();
+      memoizedState[currentCursor] = array;
     }
     currentCursor++;
   }
@@ -51,10 +53,21 @@
     useEffect(()=>{
       console.log('useEffect执行了,state2');
     },[state2]);
+
+    useEffect(()=>{
+      console.log('useEffect执行了,无');
+    });
+
+    useEffect(()=>{
+      console.log('useEffect执行了,[]');
+    },[]);
+    const [state3, setState3] = useState(101);
     return (<div>
-      <span onClick={()=>{setState(state + 1)}}>state点击了{state}次</span>
+      <span onClick={()=>{setState(parseInt(Math.random() * 10))}}>state点击了{state}次</span>
       <br/>
-      <span onClick={()=>{setState2(state2 + 1)}}>state2点击了{state2}次</span>
+      <span onClick={()=>{setState2(parseInt(Math.random() * 100))}}>state2点击了{state2}次</span>
+      <br/>
+      <span onClick={()=>{setState3(parseInt(Math.random() * 1000))}}>state3点击了{state3}次</span>
     </div>)
   }
   render();
